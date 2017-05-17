@@ -36,10 +36,15 @@ public class TestPlip {
 
     @Test
     public void testReplicate() {
+        Plip p = new Plip(1.5);
+        Plip px = p.replicate();
+        assertEquals(0.75, px.energy(), 0.01);
+        assertEquals(0.75, p.energy(), 0.01);
+        assertNotSame(p, px);
 
     }
 
-    //@Test
+    @Test
     public void testChoose() {
         Plip p = new Plip(1.2);
         HashMap<Direction, Occupant> surrounded = new HashMap<Direction, Occupant>();
@@ -55,6 +60,20 @@ public class TestPlip {
         Action actual = p.chooseAction(surrounded);
         Action expected = new Action(Action.ActionType.STAY);
 
+        assertEquals(expected, actual);
+
+        //test one empty arround, i'm pretty sure it should work
+        surrounded.put(Direction.RIGHT, new Empty());
+        actual = p.chooseAction(surrounded);
+        expected = new Action(Action.ActionType.REPLICATE, Direction.RIGHT);
+        assertEquals(expected, actual);
+
+        //one clorus around
+        p.move();
+        p.move();
+        surrounded.put(Direction.LEFT, new Clorus());
+        actual = p.chooseAction(surrounded);
+        expected  = new Action(Action.ActionType.STAY);
         assertEquals(expected, actual);
     }
 
