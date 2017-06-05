@@ -51,14 +51,15 @@ public class Percolation {
             numberOfOpenSites += 1;
         }
         //union it and it's neighbour.
-        unionOpen(index, index + 1);
-        unionOpen(index, index - 1);
-        unionOpen(index, index + n);
-        unionOpen(index, index - n);
+        unionOpen(index, row, col + 1);
+        unionOpen(index, row, col - 1);
+        unionOpen(index, row + 1, col);
+        unionOpen(index, row - 1, col);
     }
     /** if neighbour is open, union it and it's neighbour. */
-    private void unionOpen(int index, int neighbour) {
-        if (open[neighbour] && checkBound(neighbour)) {
+    private void unionOpen(int index, int row, int col) {
+        int neighbour = xyTo1D(row, col);
+        if (checkBound(row) && checkBound(col) && open[neighbour]) {
             grids.union(index, neighbour);
         }
     }
@@ -78,7 +79,12 @@ public class Percolation {
             throw new IndexOutOfBoundsException();
         }
         int index = xyTo1D(row, col);
-        return grids.connected(index, top);
+        if (open[index]) {
+            return grids.connected(index, top);
+        }
+        else {
+            return false;
+        }
     }
 
     /** number of open sites */
@@ -95,4 +101,5 @@ public class Percolation {
     public static void main(String[] args) {
 
     }
-}                       
+}
+//TODO : potential downside unfixed.
