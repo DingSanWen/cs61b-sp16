@@ -21,7 +21,8 @@ public class PercolationStats {
                 int col = StdRandom.uniform(N);
                 per.open(row, col);
             }
-            data[i] = per.numberOfOpenSites();
+            double num = (double)per.numberOfOpenSites();
+            data[i] = num / N / N;
         }
     }
     /** sample mean of percolation threshold */
@@ -40,5 +41,11 @@ public class PercolationStats {
     /** high endpoint of 95% confidence interval */
     public double confidenceHigh() {
         return mean() + 1.96 * stddev() / Math.sqrt(t);
+    }
+
+    public static void main(String[] args) {
+        PercolationStats p = new PercolationStats(20, 30);
+        double mean = p.mean();
+        System.out.println(mean);
     }
 }                       
