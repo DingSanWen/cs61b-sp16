@@ -167,3 +167,4 @@ public class MyHashMap<K,V> implements Map61B<K, V> {
         }
     }
 }
+//better approach is creating a SequentialSearch Tree class first, and use it as a chain.
