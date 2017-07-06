@@ -12,7 +12,12 @@ public class ArrayHeap<T> {
 	 * Inserts an item with the given priority value. This is enqueue, or offer.
 	 */
 	public void insert(T item, double priority) {
-
+		if (contents.isEmpty()) {
+			contents.add(null);
+		}
+		Node n = new Node(item, priority);
+		contents.add(n);
+		bubbleUp(contents.size() - 1);
 	}
 
 	/**
@@ -21,7 +26,7 @@ public class ArrayHeap<T> {
 	 */
 	public Node peek() {
 		// TODO Complete this method!
-		return null;
+		return getNode(1);
 	}
 
 	/**
@@ -30,7 +35,12 @@ public class ArrayHeap<T> {
 	 */
 	public Node removeMin() {
 		// TODO Complete this method!
-		return null;
+		int size = contents.size();
+		swap(1, size);
+		Node result = getNode(size - 1);
+		contents.remove(size - 1);
+		bubbleDown(1);
+		return result;
 	}
 
 	/**
@@ -40,6 +50,11 @@ public class ArrayHeap<T> {
 	 */
 	public void changePriority(T item, double priority) {
 		// TODO Complete this method!
+		for (int i = 0; i < contents.size(); i++) {
+			if (getNode(i).item().equals(item)) {
+				setNode(i, new Node(item, priority));
+			}
+		}
 	}
 
 	/**
@@ -103,7 +118,7 @@ public class ArrayHeap<T> {
 	 */
 	private int getLeftOf(int i) {
 		// TODO Complete this method!
-		return 0;
+		return 2 * i;
 	}
 
 	/**
@@ -111,7 +126,7 @@ public class ArrayHeap<T> {
 	 */
 	private int getRightOf(int i) {
 		// TODO Complete this method!
-		return 0;
+		return 2 * i + 1;
 	}
 
 	/**
@@ -119,7 +134,7 @@ public class ArrayHeap<T> {
 	 */
 	private int getParentOf(int i) {
 		// TODO Complete this method!
-		return 0;
+		return (int)i / 2;
 	}
 
 	/**
@@ -127,13 +142,15 @@ public class ArrayHeap<T> {
 	 */
 	private void setLeft(int index, Node n) {
 		// TODO Complete this method!
+		setNode(getLeftOf(index), n);
 	}
 
 	/**
 	 * Adds the given node as the right child of the node at the given index.
 	 */
-	private void setRight(int inde, Node n) {
+	private void setRight(int index, Node n) {
 		// TODO Complete this method!
+		setNode(getRightOf(index), n);
 	}
 
 	/**
@@ -141,13 +158,28 @@ public class ArrayHeap<T> {
 	 */
 	private void bubbleUp(int index) {
 		// TODO Complete this method!
+
+		int parent = getParentOf(index);
+		while(min(index, parent) == index) {
+			parent = getParentOf(parent);
+		}
+		swap(parent, index);
 	}
 
 	/**
 	 * Bubbles down the node currently at the given index.
 	 */
-	private void bubbleDown(int inex) {
+	private void bubbleDown(int index) {
 		// TODO Complete this method!
+		int left = getLeftOf(index);
+		int right = getRightOf(index);
+		int next = min(left, right);
+		while (min(next, index) == next) {
+			left = getLeftOf(index);
+			right = getRightOf(index);
+			next = min(left, right);
+		}
+		swap(next, index);
 	}
 
 	/**
