@@ -11,7 +11,7 @@ public class MergeSort {
      * @param q2 A Queue in sorted order from least to greatest.
      * @return The smallest item that is in q1 or q2.
      */
-    private static <Item extends Comparable> Item getMin(
+   private static <Item extends Comparable> Item getMin(
             Queue<Item> q1, Queue<Item> q2) {
         if (q1.isEmpty()) {
             return q2.dequeue();
@@ -35,7 +35,13 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Queue<Item>>
             makeSingleItemQueues(Queue<Item> items) {
         // Your code here!
-        return null;
+        Queue<Queue<Item>> queues = new Queue<Queue<Item>>();
+        for (Item i : items) {
+            Queue<Item> q = new Queue<Item>();
+            q.enqueue(i);
+            queues.enqueue(q);
+        }
+        return queues;
     }
 
     /**
@@ -54,13 +60,30 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Item> mergeSortedQueues(
             Queue<Item> q1, Queue<Item> q2) {
         // Your code here!
-        return null;
+        Queue<Item> res = new Queue<>();
+        int size = q1.size() + q2.size();
+        for (int i = 0; i < size; i++) {
+            res.enqueue(getMin(q1, q2));
+        }
+        return q1;
     }
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
         // Your code here!
+
         return items;
+    }
+
+    public static void main(String[] args) {
+        Queue<String> students = new Queue<String>();
+        students.enqueue("Alice");
+        students.enqueue("Vanessa");
+        students.enqueue("Ethan");
+        students.enqueue("Dane");
+        System.out.println(students);
+        MergeSort.mergeSort(students);
+        System.out.println(students);
     }
 }
