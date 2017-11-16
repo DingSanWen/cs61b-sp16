@@ -2,18 +2,19 @@ package hw4.puzzle;
 import edu.princeton.cs.algs4.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Solver {
 //    private final int moves;
     private ArrayList<searchNode> solutionNodes;
-    private ArrayList<Board> marked;
+//    private HashSet<Board> marked;
     private MinPQ<searchNode> pq;
 
     public Solver(Board ini) {
         solutionNodes = new ArrayList<>();
-        marked = new ArrayList<>();
+//        marked = new HashSet<>();
         pq = new MinPQ<searchNode>();
-        marked.add(ini);
+//        marked.add(ini);
         searchNode curr = new searchNode(ini);
         pq.insert(curr);
         solutionNodes.add(curr);
@@ -33,8 +34,8 @@ public class Solver {
 //                solutionNodes.add(w);
 //                return;
 //            }
-            if (!marked.contains(b)){
-                marked.add(b);
+            if (!b.equals(v.getPrev().getBoard())){
+//                marked.add(b);
                 searchNode w = new searchNode(b, v);
                 pq.insert(w);
             }

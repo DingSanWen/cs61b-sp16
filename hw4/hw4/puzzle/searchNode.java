@@ -35,6 +35,12 @@ public class searchNode implements Comparable<searchNode> {
         return this.board;
     }
 
+    public searchNode getPrev() {
+        if (prev == null)
+            return this;
+        return prev;
+    }
+
     public int compareTo(searchNode o) {
         return this.getHamPriority() - o.getHamPriority();
     }
