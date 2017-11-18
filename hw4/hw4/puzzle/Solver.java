@@ -6,26 +6,31 @@ import java.util.HashSet;
 
 public class Solver {
 //    private final int moves;
-    private ArrayList<searchNode> solutionNodes;
+//    private ArrayList<searchNode> solutionNodes;
 //    private HashSet<Board> marked;
     private MinPQ<searchNode> pq;
-
+    private Stack<Board> boards;
     public Solver(Board ini) {
-        solutionNodes = new ArrayList<>();
+//        solutionNodes = new ArrayList<>();
+        boards = new Stack<Board>();
 //        marked = new HashSet<>();
         pq = new MinPQ<searchNode>();
 //        marked.add(ini);
-        searchNode curr = new searchNode(ini);
-        pq.insert(curr);
-        curr = pq.delMin();
-        solutionNodes.add(curr);
+        searchNode first = new searchNode(ini);
+        pq.insert(first);
+        searchNode curr = pq.delMin();
+//        solutionNodes.add(curr);
         while (!curr.getBoard().isGoal()) {
 //            curr = pq.delMin();
             visit(curr);
-            solutionNodes.add(curr);
+//            solutionNodes.add(curr);
             curr = pq.delMin();
         }
-        solutionNodes.add(curr); // add last searchNode
+//        solutionNodes.add(curr); // add last searchNode
+        while (!curr.equals(first)) {
+            boards.push(curr.getBoard());
+            curr = curr.getPrev();
+        }
     }
 
     public void visit(searchNode v) {
@@ -45,25 +50,27 @@ public class Solver {
     }
 
     public int moves() {
-        return solutionNodes.get(solutionNodes.size() - 1).moves();
+//        return solutionNodes.get(solutionNodes.size() - 1).moves();
+        return boards.size();
     }
 
     public Iterable<Board> solution() {
         // the moves of solutionNode will be like 0 1 2 1 2 3 4
         // we should delete the first 0 and 1
-        Stack<Board> solution = new Stack<>();
-        int size = solutionNodes.size();
-        solution.push(solutionNodes.get(size - 1).getBoard());
-        int currMoves = solutionNodes.get(size - 1).moves(); // it's 0, actually
-
-        for (int i = size - 1; i >= 0 ; i--) {
-            searchNode curr = solutionNodes.get(i);
-            if (curr.moves() < currMoves) {
-                solution.push(curr.getBoard());
-                currMoves = curr.moves();
-            }
-        }
-        return solution;
+//        Stack<Board> solution = new Stack<>();
+//        int size = solutionNodes.size();
+//        solution.push(solutionNodes.get(size - 1).getBoard());
+//        int currMoves = solutionNodes.get(size - 1).moves(); // it's 0, actually
+//
+//        for (int i = size - 1; i >= 0 ; i--) {
+//            searchNode curr = solutionNodes.get(i);
+//            if (curr.moves() < currMoves) {
+//                solution.push(curr.getBoard());
+//                currMoves = curr.moves();
+//            }
+//        }
+//        return solution;
+        return boards;
     }
     // DO NOT MODIFY MAIN METHOD
     /* Uncomment this method once your Solver and Board classes are ready.*/
