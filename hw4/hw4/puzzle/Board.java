@@ -4,21 +4,17 @@ public class Board {
 
     private final int[][] tiles;
     private final int N;
-    private final int[][] goal;
 
 /*  Constructs a board from an N-by-N array of tiles where
     tiles[i][j] = tile at row i, column j*/
     public Board(int[][] tiles) {
         N = tiles.length;
         this.tiles = new int[N][N];
-        goal = new int[N][N];
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 this.tiles[i][j] = tiles[i][j];
-                goal[i][j] = i * N + j + 1;
             }
         }
-        goal[N - 1][N - 1] = 0;
     }
 
     public int tileAt(int i, int j) {
@@ -36,7 +32,8 @@ public class Board {
         int han = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (tiles[i][j] != 0 && tiles[i][j] != goal[i][j]) {
+                int goal = i * N + j + 1;
+                if (tiles[i][j] != goal && goal != N * N) {
                     han++;
                 }
             }
@@ -60,13 +57,14 @@ public class Board {
     }
 
     public boolean isGoal(){
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (tiles[i][j] != goal[i][j])
-                    return false;
-            }
-        }
-        return true;
+//        for (int i = 0; i < N; i++) {
+//            for (int j = 0; j < N; j++) {
+//                int goal = i * N + j + 1;
+//                if (tiles[i][j] != goal && goal != N * N || goal == N * N)
+//                    return false;
+//            }
+//        }
+        return hamming() == 0;
     }
 
     public boolean equals(Object y) {

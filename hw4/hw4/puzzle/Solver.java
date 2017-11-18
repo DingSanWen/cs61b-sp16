@@ -17,13 +17,15 @@ public class Solver {
 //        marked.add(ini);
         searchNode curr = new searchNode(ini);
         pq.insert(curr);
+        curr = pq.delMin();
         solutionNodes.add(curr);
-        while (!solutionNodes.get(solutionNodes.size() - 1).getBoard().isGoal()) {
-            curr = pq.delMin();
+        while (!curr.getBoard().isGoal()) {
+//            curr = pq.delMin();
             visit(curr);
             solutionNodes.add(curr);
-
+            curr = pq.delMin();
         }
+        solutionNodes.add(curr); // add last searchNode
     }
 
     public void visit(searchNode v) {
@@ -85,3 +87,6 @@ public class Solver {
     }
 
 }
+
+/* todo : run time is big than 1s and use too much memory,
+ perhaps still didn't implement critical optimization right */
